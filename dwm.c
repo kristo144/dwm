@@ -198,7 +198,7 @@ static void detachstack(Client *c);
 static Monitor *dirtomon(int dir);
 static void drawbar(Monitor *m);
 static void drawbars(void);
-static void enternotify(XEvent *e);
+//static void enternotify(XEvent *e);
 static void expose(XEvent *e);
 static void focus(Client *c);
 static void focusin(XEvent *e);
@@ -230,7 +230,7 @@ static void resizeclient(Client *c, int x, int y, int w, int h);
 static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
 static void run(void);
-static void runAutostart(void);
+//static void runAutostart(void);
 static void scan(void);
 static int sendevent(Client *c, Atom proto);
 static void sendmon(Client *c, Monitor *m);
@@ -928,6 +928,7 @@ drawbars(void)
 		drawbar(m);
 }
 
+/*
 void
 enternotify(XEvent *e)
 {
@@ -946,6 +947,7 @@ enternotify(XEvent *e)
 		return;
 	focus(c);
 }
+*/
 
 void
 expose(XEvent *e)
@@ -1627,11 +1629,6 @@ run(void)
 	while (running && !XNextEvent(dpy, &ev))
 		if (handler[ev.type])
 			handler[ev.type](&ev); /* call handler */
-}
-
-void
-runAutostart(void) {
-	system("killall -q dwmblocks; dwmblocks &");
 }
 
 void
