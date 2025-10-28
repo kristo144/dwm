@@ -891,19 +891,23 @@ drawbar(Monitor *m)
 			urg |= c->tags;
 	}
 	x = 0;
+	drw_setscheme(drw, scheme[SchemeNorm]);
 	for (i = 0; i < LENGTH(tags); i++) {
 		/* do not draw vacant tags */
 		if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
 		continue;
 
 		w = TEXTW(tags[i]);
-		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
+		if (m->tagset[m->seltags] & 1 << i)
+			drw_rect(drw, x+8, 22, w-16, 5, 1, 0);
 		x += w;
 	}
-	w = TEXTW(m->ltsymbol);
-	drw_setscheme(drw, scheme[SchemeSel]);
-	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
+
+	char layout[32];
+	snprintf(layout, sizeof(layout), " ::  %s  :: ", m->ltsymbol);
+	w = TEXTW(layout);
+	x = drw_text(drw, x, 0, w, bh, lrpad / 2, layout, 0);
 
 	if ((w = m->ww - tw - x) > bh) {
 		if (m->sel) {
